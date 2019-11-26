@@ -10,22 +10,26 @@
         <script src="nav.js"></script>
         <h1>Looking to contact me?</h1>
         <p>Currently looking for an internship for Summer 2020. 
-            <br>Leave me an e-mail to get in touch!</p>
-        <form method="post" name="emailform" action="form-email.php">
-            <p>
-                <label for="name">Name:</label><br>
-                <input type="text" name="name">
-            </p>
-            <p>
-                <label for="email">E-mail:</label><br>
-                <input type="text" name="email">
-            </p>
-            <p>
-                <label for="message">Message:</label><br>
-                <textarea name="message" rows="5" cols="100">
+            <br>Leave me an e-mail to get in touch!
+        </p>
+        <div class="contact_form"> 
+            <form method="post" name="emailform" action="form-email.php">
+                <p>
+                    <label for="name">Name:</label><br>
+                    <input type="text" name="name">
+                </p>
+                <p>
+                    <label for="email">E-mail:</label><br>
+                    <input type="text" name="email">
+                </p>
+                <p>
+                    <label for="message">Message:</label><br>
+                    <textarea name="message" rows="5" cols="100">
+                    </textarea>
+                </p>
+                <input type="submit" name="submit">
 
-                </textarea>
-            </p>
-        </form>
+            </form>
+        </div>   
     </body>
 </html>
