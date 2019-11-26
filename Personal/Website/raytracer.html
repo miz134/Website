@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Raytracer</title>
+        <link rel="stylesheet" type = "text/css" href="style.css">
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    </head>
+    <body>
+        <script src="nav.js"></script>
+        <h1>Welcome to my Ray Tracer!</h1>
+        <p> Scroll below for some sample text files and images!
+            <br>All of these images were self-generated with my ray tracer.
+        </p>
+        <p class="instructions">Instructions: 
+            <br>
+            Insert a text file using the following commands to run my raytracer.
+            <table class="instructions_table" style="width:100%">
+                <tr>
+                    <th>General</th>
+                </tr>
+                <tr>
+                    <td>size (width) (height)</td>
+                    <td>The size command must be the first command of the file, which controls the image size.</td>
+                </tr>
+                <tr>
+                    <td>maxdepth (depth)</th>
+                    <td>The maximum depth (number of bounces) for a ray (default should be 5).</td>
+                </tr>
+                <tr>
+                    <td>output (filename)</th>
+                    <td>The output file to which the image should be written.</td>
+                </tr>
+                <tr>
+                    <td>camera (lookfromx) (lookfromy) (lookfromz) (lookatx) (lookaty) (lookatz) (upx) (upy) (upz) (fieldofviewy)</td>
+                    <td>Specifies the location and direction of the camera.</td>
+                </tr>
+                <tr>
+                    <th>Geometry</th>
+                </tr>
+                <tr>
+                    <td>sphere (x) (y) (z) (radius)</td>
+                    <td>Defines a sphere with a given position and radius.</td>
+                </tr>
+                <tr>
+                    <td>maxverts (number)</td>
+                    <td>Defines a maximum number of vertices for later triangle specifications. It must be set before vertices are defined.</td>
+                </tr>
+                <tr>
+                    <td>maxvertnorms (number)</td>
+                    <td>Defines a maximum number of vertices with normals for later specifications. It must be set before vertices with normals are defined.</td>
+                </tr>
+                <tr>
+                    <td>vertex (x) (y) (z)</td>
+                    <td>Defines a vertex at the given location. The vertex is put into a pile, starting to be numbered at 0.</td>
+                </tr>
+                <tr>
+                    <td>vertexnormal (x) (y) (z) (nx) (ny) (nz)</td>
+                    <td>Defines a surface normal with each vertex. The vertex and vertexnormal set of vertices are completely independent.</td>
+                </tr>
+                <tr>
+                    <td>tri (v1) (v2) (v3)</td>
+                    <td> Create a triangle out of the vertices involved (which have previously been specified with the vertex command). The vertices are assumed to be specified in counter-clockwise order.</td>
+                </tr>
+                <tr>
+                    <td>trinormal (v1) (v2) (v3)</td>
+                    <td>Same as above but for vertices specified with normals.</td>
+                </tr>
+                <tr>
+                    <th>Transformations</th>
+                </tr>
+                <tr>
+                    <td>translate (x) (y) (z)</td>
+                    <td>A translation 3-vector</td>
+                </tr>
+                <tr>
+                    <td>rotate (x) (y) (z) (angle)</td>
+                    <td>Rotate by angle (in degrees) about the given axis.</td>
+                </tr>
+                <tr>
+                    <td>scale (x) (y) (z)</td>
+                    <td>Scale by the corresponding amount in each axis (a non-uniform scaling).</td>
+                </tr>
+                <tr>
+                    <td>pushTransform</td>
+                    <td>Push the current modeling transform on the stack. (You might want to do pushTransform immediately after setting the camera to preserve the identity transformation.)</td>
+                </tr>
+                <tr>
+                    <td>popTransform</td>
+                    <td>Pop the current transform from the stack. (The sequence of popTransform and pushTransform can be used if desired before every primitive to reset the transformation assuming the initial camera transformation is on the stack as discussed above)</td>
+                </tr>
+                <tr>
+                    <th>Lights</th>
+                </tr>
+                <tr>
+                    <td>directional (x) (y) (z) (r) (g) (b)</td>
+                    <td>The direction to the light source and the color</td>
+                </tr>
+                <tr>
+                    <td>point (x) (y) (z) (r) (g) (b)</td>
+                    <td>The location of a point source and the color</td>
+                </tr>
+                <tr>
+                    <td>attenuation (const) (linear) (quadratic)</td>
+                    <td>Sets the constant, linear and quadratic attenuations (default: none (1,0,0))</td>
+                </tr>
+                <tr>
+                    <td>ambient (r) (g) (b)</td>
+                    <td>The global ambient color to be added for each object (default is .2,.2,.2).</td>
+                </tr>
+                <tr>
+                    <th>Materials</th>
+                </tr>
+                <tr>
+                    <td>diffuse (r) (g) (b)</td>
+                    <td>Specifies the diffuse color of the surface.</td>
+                </tr>
+                <tr>
+                    <td>specular (r) (g) (b)</td>
+                    <td>Specifies the specular color of the surface.</td>
+                </tr>
+                <tr>
+                    <td>shininess (s)</td>
+                    <td>Specifies the shininess of the surface.</td>
+                </tr>
+                <tr>
+                    <td>emission (r) (g) (b)</td>
+                    <td>Specifies the emissive color of the surface.</td>
+                </tr>
+            </table>
+        </p>
+        <br>
+<!--
+        <script language="JavaScript" type="text/javascript"> 
+            MyObject = new ActiveXObject( "WScript.Shell" ) 
+            function RunRaytracer()  
+            { 
+               MyObject.Run("./raytracer") ; 
+           } 
+
+       </script>
+        <form class = "run_raytracer" action="run_raytracer.php" method="post">
+            Select a text file: <input type="file" name="textFile" value="textFile"><br><br>
+            <input type="submit" value="Run Raytracer">
+        </form>
+        -->
+        <br>
+        <div>
+            <img class="raytracer_image" src="Raytracer Images/dragon.png" alt="Dragon">
+            <p class="singleImageDescription"> This is a dragon created from a 150,000+ line text file.
+                <br> It contains diffusion, ambience, shininess, and specular lights.
+                <br> It is created primarily from vertices and triangles.
+                <br> Note: Due to the file size and complexity, running this file may take a while.
+                <br>
+                <button class="imageButton" type="submit" onclick="window.open('Raytracer Images/dragon.png')">Download Image</button>
+                <button class="imageButton" type="submit" onclick="window.open('Raytracer Images/dragon.test')">Download Text File</button>
+            </p>
+        </div>
+        <br>
+        <div>
+            <img class="raytracer_image" src="Raytracer Images/scene6.png" alt="Scene6">
+            <p class="singleImageDescription"> This is a simple scene that demonstrates the type of lights and object attributes available.
+                <br>
+                <button class="imageButton" type="submit" onclick="window.open('Raytracer Images/scene6.png')">Download Image</button>
+                <button class="imageButton" type="submit" onclick="window.open('Raytracer Images/scene6.test')">Download Text File</button>
+            </p>
+        </div>
+        <br>
+        <div>
+            <img class="raytracer_image" src="Raytracer Images/scene5.png" alt="Scene5">
+            <p class="singleImageDescription"> This is a simple scene that demonstrates the type of lights and object attributes available.
+                <br>
+                <button class="imageButton" type="submit" onclick="window.open('Raytracer Images/scene5.png')">Download Image</button>
+                <button class="imageButton" type="submit" onclick="window.open('Raytracer Images/scene5.test')">Download Text File</button>
+            </p>
+        </div>
+        <br>
+        <div>
+            <img class="raytracer_image" src="Raytracer Images/scene4-ambient.png" alt="Scene6">
+            <img class="raytracer_image" src="Raytracer Images/scene4-diffuse.png" alt="Scene6">
+            <img class="raytracer_image" src="Raytracer Images/scene4-emission.png" alt="Scene6">
+            <img class="raytracer_image" src="Raytracer Images/scene4-specular.png" alt="Scene6">
+
+            <p class="imageDescription"> This is a simple scene that demonstrates the type of lights and object attributes available.
+                <br>
+                <div class="imageButtonGroup">
+                <button class="imageButton" type="submit" onclick="window.open('Raytracer Images/scene4-ambient.png')">Download Image</button>
+                <button class="imageButton" type="submit" onclick="window.open('Raytracer Images/scene4-ambient.test')">Download Text File</button>
+                </div>
+                <div class="imageButtonGroup">
+                <button class="imageButton" type="submit" onclick="window.open('Raytracer Images/scene4-diffuse.png')">Download Image</button>
+                <button class="imageButton" type="submit" onclick="window.open('Raytracer Images/scene4-diffuse.test')">Download Text File</button>
+                </div>
+                <div class="imageButtonGroup">
+                <button class="imageButton" type="submit" onclick="window.open('Raytracer Images/scene4-emission.png')">Download Image</button>
+                <button class="imageButton" type="submit" onclick="window.open('Raytracer Images/scene4-emission.test')">Download Text File</button>
+                </div>
+                <div class="imageButtonGroup">
+                <button class="imageButton" type="submit" onclick="window.open('Raytracer Images/scene4-specular.png')">Download Image</button>
+                <button class="imageButton" type="submit" onclick="window.open('Raytracer Images/scene4-specular.test')">Download Text File</button>
+                </div>
+            </p>
+        </div>
+        <br>
+        <div>
+            <img class="raytracer_image" src="Raytracer Images/scene2-camera1.jpg" alt="Scene5">
+            <img class="raytracer_image" src="Raytracer Images/scene2-camera2.jpg" alt="Scene5">
+            <img class="raytracer_image" src="Raytracer Images/scene2-camera3.jpg" alt="Scene5">
+            <p class="singleImageDescription">
+                This is a simple scene that demonstrates the type of camera movements/rotations available.
+                <br>
+                <div class="imageButtonGroup">
+                <button class="imageButton" type="submit" onclick="window.open('Raytracer Images/scene2-camera1.png')">Download Image</button>
+                <button class="imageButton" type="submit" onclick="window.open('Raytracer Images/scene2-camera1.test')">Download Text File</button>
+                </div>
+                <div class="imageButtonGroup">
+                <button class="imageButton" type="submit" onclick="window.open('Raytracer Images/scene2-camera2.png')">Download Image</button>
+                <button class="imageButton" type="submit" onclick="window.open('Raytracer Images/scene2-camera2.test')">Download Text File</button>
+                </div>
+                <div class="imageButtonGroup">
+                <button class="imageButton" type="submit" onclick="window.open('Raytracer Images/scene2-camera3.png')">Download Image</button>
+                <button class="imageButton" type="submit" onclick="window.open('Raytracer Images/scene2-camera3.test')">Download Text File</button>
+                </div>
+            </p>
+        </div>
+
+    </body>
+</html>
